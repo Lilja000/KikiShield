@@ -1,0 +1,104 @@
+KikiShield 0.4.0 — verification
+
+RESULTS
+116/116 Node.js regression tests passed (Node v24.19.0).
+44/44 Chromium interface fixture checks passed.
+16/16 Chromium R132 rendering/CORS checks passed.
+Browser: Chromium 133.0.6943.0, Playwright, headless software WebGL2.
+
+This is fixture-based verification, not live certification of a full addon pack.
+No game login, real target player or live interaction was used.
+Firefox Android and actual userscript-manager installation remain untested.
+
+SECURITY / COMPATIBILITY
+
+New in 0.4.0:
+- Separate BCC/LSCG defaults, migration and core checks when isolation is OFF.
+- Panic blocks before listeners and disconnected buffers, keeps account/room
+  lifecycle, denies trusted incoming changes, and sends no activation announcement.
+- Native audio hooks preserve return contracts, pass through when inactive,
+  avoid retry storms on failure, and restore known media mute state.
+- BCC malformed outfit/gift/room/speech validation and actual ingress rejection.
+- Bounded decoder crosschecked against real BC LZString on 107 string fixtures,
+  including UTF16 and exact size caps; oversized expansion rejected during decode.
+- BCC custom activity signatures isolated without confusing ordinary BC activity
+  or normal text mentioning their names.
+
+- All six native interaction levels, owner/lover/whitelist/dominance, revocation,
+  sender-versus-recipient lists, blacklist/ghostlist precedence and extra modes.
+- BCC recipient-only Friend/Whitelist/Lover/Owner roles; defaults and mixed effects;
+  corrupt own settings; real BC LZString decoding in the active-control test.
+- A normally permitted non-caster cannot send active AnimaFurta commands, while
+  the actual permitted caster reaches the real upstream handler.
+- BCC changeAppearance/publishAction relays and unverified controller claims stop.
+  A local cast grants a claim only to its target and room; ghosted targets stop.
+- BCC and LSCG metadata passes in compatibility mode; selected isolation blocks it.
+  Command-in-metadata, bad module containers and prototype keys are refused.
+- LSCG command, broadcast and structured-beep routes; foreign targets; remote
+  debug HTML; accepted commands continue to the actual upstream module.
+- KikiLink communication with OwnerOnly / Block interactions; BCX metadata/read
+  requests versus mutation requests; strict filtering explicitly overrides these.
+- Native activity effects from denied senders stop; allowed activity passes.
+- Native R132 clothing/restraint checks, blocked/limited items, body wardrobe,
+  cosplay, owner/lover locks and friend/whitelist script-property distinction.
+- Item, full-character and room-snapshot updates, empty valid appearance,
+  CharacterID alias, relationship metadata, self and other-character updates.
+- Game envelopes: target filtering, round progression, other targets, cards.
+- Actual bundled Socket.IO before onAny/listeners, acknowledgements, frozen
+  buffered events, current-permission replay, reconnects, late startup and
+  cooperative method wrappers without repeated snapshot filtering.
+- Bounded restore traffic, account/room cancellation, settings and private logs.
+- 1,800 deterministic bounded malformed-wire cases produce no ingress exception.
+
+Upstream fixtures execute actual selected BC server/client functions, five
+historical Chaos Aura hooks, current AnimaFurta with its messaging library,
+LSCG core/magic and R132 validators. Game state and mutation/network sinks are
+synthetic. This does not test all effects in the entire upstream bundles.
+
+RENDERER
+
+Two loopback HTTP origins supply real browser images with and without CORS.
+The exact R132 mask/texture functions and exact game ModSDK are executed.
+Deployed Echo clothing/activity and archived BCC mapping hooks are extracted;
+BC Feather 2.0.0's exact alpha-mask patch remains installed in that chain.
+
+The unprotected loader reproduces SecurityError on a real tainted canvas.
+With KikiShield, a cached image retries once with anonymous CORS and becomes
+origin-clean; a no-CORS host fails once and uses the fallback. Healthy layers,
+mask-cache hits and BC Feather cache touches survive. Mutable canvas sources
+are rechecked. Unrelated errors still propagate. The switch restores original
+behavior when disabled. A mapper installed later remains compatible.
+Guarded scenarios produce zero unhandled browser errors; no live image hosts
+or game servers are contacted by the fixture.
+
+INTERFACE
+
+English-only menu; original embedded icon; KikiLink black/gold/red palette;
+settings persistence; keyboard tabs, Enter/Space and Escape; outside dismissal;
+touch drag versus tap; persistent icon position/reset; exported logs without
+payloads; retained session totals; idle log rows not rebuilt; degraded status;
+separate addon switches, collapsible advanced settings and image recovery;
+Panic page hiding/inert controls/media restore, focus containment, no replay,
+modal dialog and popover promotion without closing another addon's window;
+shadow content cannot override the opaque hiding; repeated Panic/Resume works.
+Visual checks: desktop 1200x800, portrait 390x844, landscape 844x390,
+small viewport 320x568. Panel content scrolls without horizontal overflow.
+These are Chromium viewport/touch checks, not a real Android device run.
+
+SOURCE SCOPE
+
+BCC 2.2.3: 3b85255bc74d6e09280589612576ccdba2be33fc
+BCC 2.2.1 source: 831dff2c0a0687522c11eb1b2079d60cafbbd719
+BCC deployed source map: a57af462b4d95a047bbaa78b33e6c2b20fce0cef
+LSCG 0.9.8: 709087b9aea4af65dc1927903bdb18a3593e529f
+BC client baseline: 5eb495c5ced4ee92d40385b7521e6ca63ace12e5
+BC server: 9cfaaeffab8b417df9db7fcb0d1e3b9092b6c922
+BCX protocol review: 1f6558f4545762a94671716cc8b7640e7e77eb46
+R132 production JavaScript: bondage-europe.com/R132/BondageClub/
+Echo clothing: main-BAELTEgH.js; Echo activity: main-HCE0nWqm.js
+BC Feather: supplied 2.0.0 userscript.
+KikiLink: reviewed public dist used for the existing interface/protocol work.
+See tests/SOURCE-MANIFEST.json for source URLs, file hashes and fixture paths.
+
+No claim of complete server-side protection, prevention of public wardrobe
+viewing, all text-trigger coverage, or universal addon compatibility is made.
