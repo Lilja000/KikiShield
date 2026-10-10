@@ -1,4 +1,4 @@
-KikiShield 0.4.0
+KikiShield 0.5.0
 
 Made By Kiki #72385
 A local incoming-action shield for Bondage Club R132.
@@ -40,7 +40,22 @@ checks stay active. Normal authorized addon behavior can then pass to that
 addon's own checks. Keep Strict hidden-message filter OFF for normal addon
 communication. Known BCX and KikiLink metadata/communication stay available.
 
-WHAT CHANGED IN 0.4.0
+WHAT CHANGED IN 0.5.0
+
+- Expand an Activity entry to inspect the command, sender, target, blocking
+  reason, assessment and retained incoming packet. Filter entries by severity.
+- Serious, Caution, Background and System labels distinguish direct rejected
+  operations from uncertain commands, routine metadata and shield diagnostics.
+  These labels describe the available evidence, not a person's intent.
+- Optional automatic blacklist or ghost actions, with separate rules for serious
+  blocked attempts, observed BCC traffic and observed LSCG traffic. Automation is
+  OFF by default. Trusted-person exclusions, member-ID exceptions, a serious-event
+  threshold, action limits and conditional Undo help avoid unintended list changes.
+- Activity can now retain private command arguments and appearance data locally.
+  Payloads are bounded, ordinary chat and Panic contents are excluded, and exports
+  require the same care as other files containing private game information.
+
+RETAINED FROM 0.4.0
 
 - Separate BCC and LSCG isolation, with BCC isolated by default. This also stops
   incoming BCC storage from driving new controller/reflection metadata behavior.
@@ -191,11 +206,101 @@ If the renderer signature is unsupported, the menu says recovery is unavailable.
 
 ACTIVITY / PRIVACY
 
-Activity contains at most 100 in-memory records, combining repeated events.
-It records time, channel, reason, member number and count, not packet contents,
-chat text, spell arguments, outfits or image URLs. Export produces JSON; Clear
-removes records without resetting the session counters. Review member numbers
-before sharing an export. Preferences are local per account and game domain.
+Tap an Activity entry to expand it. It shows the command or action, the sender's
+server-attributed member number when available, target, channel, blocking reason,
+severity explanation, retained incoming packet and automatic-action result.
+Known command arguments appear as text, never executable HTML. The packet is a
+serialized snapshot of the received data; encoded fields remain encoded.
+
+Severity      Meaning
+------------  ---------------------------------------------------------------
+Serious       A recognized direct operation was rejected by your permissions,
+              lists or a covered unsafe-relay rule. This is evidence of the
+              operation, not proof of the sender's intent.
+Caution       An isolated, unknown, malformed or incompletely assessed command.
+              Addon isolation alone does not establish a permission bypass.
+Background    Routine synchronization, unchanged items, another target, muted
+              events or other traffic without a verified direct violation.
+System        KikiShield diagnostics, such as restoration or graphics recovery.
+
+Native item and direct appearance updates count as serious only when a meaningful
+change to your character can be established. Full room snapshots and relationship
+synchronization never justify an automatic violation action. LSCG broadcasts with
+another or unspecified target are not treated as direct attempts against you.
+Unknown commands can be blocked without being counted as serious violations.
+
+Up to 100 records are held in memory in this tab. Identical recent events may be
+combined; different commands and retained payloads remain separate. Each retained
+payload is capped at 64 KiB of UTF-8 text, with a 1 MiB total payload budget. Older
+records are removed when either limit is reached. Truncated or omitted payloads
+are explicitly marked; a truncated payload is not a complete packet or valid JSON.
+Malformed unidentified envelopes and unsafe data may be omitted entirely.
+
+Ordinary chat and Panic contents are not retained. Command packets can still
+contain private text, spell arguments, settings, outfits or embedded URLs. Graphics
+recovery does not put image URLs or image contents in the log. Inspect all retained
+details and member IDs before sharing an Export JSON file. No log is uploaded
+automatically or saved with preferences. Reloading or changing account clears it.
+
+Clear removes the records and cancels queued automatic actions without resetting
+session counters or reversing completed list changes. Undo is available only from
+a retained entry, so clear the log after reviewing any changes you may want to undo.
+Preferences are local per account and game domain.
+
+AUTOMATIC BLACKLIST / GHOSTLIST
+
+Open Protection > Automatic actions. Choose Off, Blacklist, or Ghost + blacklist.
+Off is the default. BC's native GhostList add also adds BlackList and removes a
+whitelist entry; a native blacklist add removes a whitelist entry as well. These
+are real saved BC list changes, not temporary KikiShield-only filters.
+
+Rule                         Default   Behavior
+---------------------------  --------  ---------------------------------------
+Serious blocked attempts     ON        When automation is enabled, acts after
+                                       1, 2 or 3 qualifying events by the same
+                                       sender within 60 seconds. Default: 1.
+Observed BCC use              OFF       Acts on the first recognized BCC protocol
+                                       event, including routine metadata.
+Observed LSCG use             OFF       Acts on the first recognized LSCG protocol
+                                       event, including routine metadata.
+Protect trusted people       ON        Excludes your owner, lovers, whitelist
+                                       and friends from automatic list changes.
+Member-ID exceptions         Empty     Up to 100 explicitly excluded numeric IDs.
+
+Observed traffic is not definitive proof that a particular addon is installed,
+and addon use is not an attack. Silent users cannot be detected. The presence rules
+are separate from the serious-attempt threshold: enabling either can act on routine
+metadata even if Block BCC or Block LSCG is OFF. They do not sweep existing room
+members or infer addon use from a nickname, chat text or somebody else's claims.
+
+Only a verified outer sender who is still in the current room can be selected.
+The shield never automatically lists your own account. Trusted-person checks wait
+for the required relationship lists to be available; unknown relationships are
+not treated as permission to act. Exceptions and trusted-person exclusions affect
+automatic list changes only: the incoming protection checks remain active.
+
+Actions are queued outside packet handling and rechecked against the current
+account, room, connection, settings, list state and exemptions before BC's own
+list API is called. Settings changes cancel queued actions and reset accumulated
+serious-attempt counts. Panic, disconnects, room/account changes and an unavailable
+native list API prevent queued actions from applying. No custom list packet is sent.
+
+At most 5 automatic member actions may apply in one minute and 50 in one session.
+The queue holds at most 20 distinct members. Events exceeding a rate/session limit
+are skipped, not held for a later batch. After the minute cooldown, a new qualifying
+event is required. Reloading resets session state. Check the Activity result for
+skips, exceptions, partial native changes or an unavailable API. These limits affect
+automation only; they do not allow an otherwise blocked incoming action through.
+
+An applied action offers Undo in its expanded Activity entry. Undo runs only for
+the same account when that member's blacklist, ghostlist and whitelist membership
+still match the recorded post-action state. It restores the memberships changed by
+that action, including a pre-existing blacklist entry that native ghost removal
+would otherwise remove, or a whitelist entry removed by the add. If the list state
+has changed, it skips rollback rather than overwriting the current state. A native
+API failure or partial update is reported for manual review. Undo does not reset
+automation counters. Reloading, account changes or clearing/evicting the entry makes
+its Undo unavailable; completed native list changes remain until you remove them.
 
 The icon is embedded. There are no remote code imports, analytics, external
 fonts or automatic updates. Image recovery can retry existing image URLs; outfit
@@ -229,9 +334,16 @@ the native validator when applying its own accepted effects.
 
 VERIFICATION
 
-116 Node regression tests passed, including real source handlers and 1,800 bounded
-malformed-wire cases inside one test. 44 Chromium UI checks and 16 real WebGL/CORS
-checks passed. See VERIFICATION.txt and tests/*-results.json.
+0.5.0: 187 Node regression tests and 4 Node DOM interface regression groups
+passed. These include the actual R132 list updater and tests for false positives,
+sender attribution, payload retention limits, trusted exclusions and guarded Undo.
+The new interface checks used LinkeDOM; no browser layout engine was run for 0.5.0.
+
+The previous 0.4.0 release passed 116 Node regression tests, including real source
+handlers and 1,800 bounded malformed-wire cases inside one test, plus 44 Chromium
+UI checks and 16 real WebGL/CORS checks. Those historical counts do not certify the
+new Activity/automation features. See VERIFICATION.txt and tests/*-results.json for
+the final release results.
 No live player or game account was used. Firefox Android, the userscript manager
 and the entire installed addon pack were not exercised end to end.
 
@@ -244,6 +356,10 @@ Source-based tests require the audited source workspace in KIKISHIELD_UPSTREAM:
 Browser tests additionally require Playwright and Chromium with WebGL2 support:
   KIKISHIELD_UPSTREAM=/path/to/audit KIKISHIELD_CHROMIUM=/path/to/chromium node tests/browser.cjs
   KIKISHIELD_UPSTREAM=/path/to/audit KIKISHIELD_CHROMIUM=/path/to/chromium node tests/render.browser.cjs
+
+New DOM simulation (optional linkedom package; no browser required):
+  KIKISHIELD_DOM_MODULES=/path/to/node_modules node --test tests/activity-dom.cjs
+The downloadable KikiShield-0.5.0.zip contains these test sources and results.
 
 tests/SOURCE-MANIFEST.json identifies the upstream files/revisions. Audit sources
 and browser binaries are not bundled; the standalone policy tests need neither.

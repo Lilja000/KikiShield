@@ -1,16 +1,45 @@
-KikiShield 0.4.0 — verification
+KikiShield 0.5.0 — verification
 
 RESULTS
-116/116 Node.js regression tests passed (Node v24.19.0).
-44/44 Chromium interface fixture checks passed.
-16/16 Chromium R132 rendering/CORS checks passed.
-Browser: Chromium 133.0.6943.0, Playwright, headless software WebGL2.
+187/187 Node.js regression tests passed (Node v24.19.0), including all 116
+previous regressions and 71 new Activity/automation/independent-review cases.
+4/4 Node LinkeDOM interface regression groups passed for the new interface.
+Syntax and whitespace checks passed. No new remote runtime dependencies.
+
+Historical 0.4.0 results, NOT re-run for 0.5.0:
+44/44 Chromium interface fixture checks; 16/16 Chromium R132 rendering/CORS checks.
+That browser was Chromium 133.0.6943.0 with headless software WebGL2.
+The 0.5.0 interface was checked using a DOM simulation, not a browser layout engine.
 
 This is fixture-based verification, not live certification of a full addon pack.
 No game login, real target player or live interaction was used.
 Firefox Android and actual userscript-manager installation remain untested.
 
 SECURITY / COMPATIBILITY
+
+New in 0.5.0:
+- Expandable immutable command snapshots, severity and independently assessed
+  direct operations; routine addon metadata is not a violation accusation.
+- Actual native R132 list updater and its relation triggers tested: blacklist,
+  ghost plus blacklist, whitelist removal, persistence calls and guarded undo.
+- Undo preserves a pre-existing blacklist or whitelist and refuses changed state.
+- Off-by-default automation, configurable serious-event threshold and explicit
+  BCC/LSCG presence rules; trusted people and strict member-ID exceptions.
+- Outer server sender identity only; no nested-ID redirection or self-punishment.
+- Unchanged native appearance/items, relationship synchronization and full room
+  snapshots cannot falsely trigger automatic violation enforcement.
+- A BCC relay's target is its subject, not the recipient: relays to third parties
+  still receive serious assessment. Caster/role assessment uses real compressed
+  BCC settings; missing settings remain uncertain rather than incriminating.
+- Account/room/setting changes, Panic, lost connection and malformed trust data
+  cancel or skip queued actions; native API failures cannot stop unrelated traffic.
+- Five automatic changes per minute and fifty per session; no deferred ban batch.
+- 64 KiB per payload, 1 MiB total, 100 records; bounded primitive target labels;
+  distinct commands remain distinct and ordinary chat/Panic content is omitted.
+- Tracked Map tests verify Clear/eviction do not retain private payload references
+  through the automation queue/history. Clear cancels pending automatic actions.
+- DOM tests verify inert hostile payload text, disclosure/filter/scroll state,
+  strict exceptions input, native-action controls, Undo and numeric target zero.
 
 New in 0.4.0:
 - Separate BCC/LSCG defaults, migration and core checks when isolation is OFF.
@@ -55,7 +84,7 @@ historical Chaos Aura hooks, current AnimaFurta with its messaging library,
 LSCG core/magic and R132 validators. Game state and mutation/network sinks are
 synthetic. This does not test all effects in the entire upstream bundles.
 
-RENDERER
+RENDERER — HISTORICAL 0.4.0 BROWSER RESULTS
 
 Two loopback HTTP origins supply real browser images with and without CORS.
 The exact R132 mask/texture functions and exact game ModSDK are executed.
@@ -71,7 +100,7 @@ behavior when disabled. A mapper installed later remains compatible.
 Guarded scenarios produce zero unhandled browser errors; no live image hosts
 or game servers are contacted by the fixture.
 
-INTERFACE
+INTERFACE — HISTORICAL 0.4.0 BROWSER RESULTS
 
 English-only menu; original embedded icon; KikiLink black/gold/red palette;
 settings persistence; keyboard tabs, Enter/Space and Escape; outside dismissal;
