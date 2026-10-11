@@ -1,4 +1,4 @@
-KikiShield 0.6.0
+KikiShield 0.6.1
 
 Made By Kiki #72385
 A local incoming-action shield for Bondage Club R132.
@@ -40,7 +40,22 @@ checks stay active. Normal authorized addon behavior can then pass to that
 addon's own checks. Keep Strict hidden-message filter OFF for normal addon
 communication. Known BCX and KikiLink metadata/communication stay available.
 
-WHAT CHANGED IN 0.6.0
+WHAT CHANGED IN 0.6.1
+
+- A shared layout for every tab: matching 44 px actions, setting rows at least
+  64 px high, 18 px outline icons and consistent text/control alignment.
+  Rows can grow when descriptions wrap; text is not forced into a fixed height.
+- Three equal-width navigation tabs place icons above their labels. Icons remain
+  visible on narrow screens. Selected tabs support arrow keys, Home and End.
+- A stable 380 by 600 px panel, reduced to fit the viewport, keeps the header,
+  navigation and footer in place while the tab body scrolls.
+- Protection and automation settings are grouped into cards. Secondary help and
+  exceptions start collapsed; primary actions remain directly accessible.
+- Activity has equal-width totals and a filter beside matching export/clear icon
+  buttons. Icon-only actions have accessible names and tooltips.
+- Protection rules, stored settings, Panic and unread-count behavior are unchanged.
+
+RETAINED FROM 0.6.0
 
 - Three compact tabs: Protection for access and addon switches, Automation for
   automatic list rules, and Activity for recorded events and their details.
@@ -351,12 +366,15 @@ the native validator when applying its own accepted effects.
 
 VERIFICATION
 
-0.6.0: 187 Node regression tests and 13 Node DOM interface regression groups
+0.6.1: 187 Node regression tests and 19 Node DOM interface regression groups
 passed. These include the actual R132 list updater and tests for false positives,
 sender attribution, payload retention limits, trusted exclusions and guarded Undo.
 The interface checks include unread-count lifecycle, three-tab navigation and
-closing Activity before a deferred event paint. They used LinkeDOM; no browser
-layout engine was run for 0.6.0. The cloud browser cannot open the local fixture.
+closing Activity before a deferred event paint. Six new groups cover accessible
+names, icon structure, keyboard navigation, explicit panel sizing, settings
+preservation and collapsed help. They used LinkeDOM, which does not render pixels
+or measure layout; the sizing checks inspect assigned dimensions only. No browser
+layout engine was run for 0.6.1. The cloud browser cannot open the local fixture.
 
 The previous 0.4.0 release passed 116 Node regression tests, including real source
 handlers and 1,800 bounded malformed-wire cases inside one test, plus 44 Chromium
@@ -377,8 +395,8 @@ Browser tests additionally require Playwright and Chromium with WebGL2 support:
   KIKISHIELD_UPSTREAM=/path/to/audit KIKISHIELD_CHROMIUM=/path/to/chromium node tests/render.browser.cjs
 
 New DOM simulation (optional linkedom package; no browser required):
-  KIKISHIELD_DOM_MODULES=/path/to/node_modules node --test tests/activity-dom.cjs tests/unread-dom.cjs
-The downloadable KikiShield-0.6.0.zip contains these test sources and results.
+  KIKISHIELD_DOM_MODULES=/path/to/node_modules node --test tests/activity-dom.cjs tests/unread-dom.cjs tests/layout-dom.cjs
+The downloadable KikiShield-0.6.1.zip contains these test sources and results.
 
 tests/SOURCE-MANIFEST.json identifies the upstream files/revisions. Audit sources
 and browser binaries are not bundled; the standalone policy tests need neither.

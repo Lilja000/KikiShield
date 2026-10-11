@@ -1,16 +1,19 @@
-KikiShield 0.6.0 — verification
+KikiShield 0.6.1 — verification
 
 RESULTS
 187/187 Node.js regression tests passed (Node v24.19.0), including all 116
 previous regressions and 71 new Activity/automation/independent-review cases.
-13/13 Node LinkeDOM interface regression groups passed, including 9 unread-count
-cases and the 4 retained Activity/automation interface regression groups.
+19/19 Node LinkeDOM interface regression groups passed: 6 new layout,
+accessibility and navigation contracts, 9 retained unread-count cases and
+4 retained Activity/automation interface regression groups.
 Syntax and whitespace checks passed. No new remote runtime dependencies.
 
-Historical 0.4.0 results, NOT re-run for 0.6.0:
+Historical 0.4.0 results, NOT re-run for 0.6.1:
 44/44 Chromium interface fixture checks; 16/16 Chromium R132 rendering/CORS checks.
 That browser was Chromium 133.0.6943.0 with headless software WebGL2.
-The 0.6.0 interface was checked using a DOM simulation, not a browser layout engine.
+The 0.6.1 interface was checked using a DOM simulation, not a browser layout engine.
+LinkeDOM does not render pixels or measure layout. Panel-size tests inspect explicit
+sizing instructions at four viewport sizes, not actual browser-rendered geometry.
 The cloud browser does not permit opening the local HTML visual fixture.
 
 This is fixture-based verification, not live certification of a full addon pack.
@@ -19,7 +22,20 @@ Firefox Android and actual userscript-manager installation remain untested.
 
 SECURITY / COMPATIBILITY
 
-New in 0.6.0:
+New in 0.6.1:
+- Consistent 44 px actions, minimum 64 px setting rows, 18 px outline icons and
+  shared gutters; descriptions may increase row height when they wrap.
+- Three equal icon-and-label tabs, grouped setting cards, collapsed secondary help
+  and an Activity toolbar with equally sized icon actions and explicit names.
+- Stable 380 by 600 px shell clamped to the viewport, with a scrolling tab body.
+  Source sizing instructions cover 1100x760, 390x844, 320x568 and 844x390.
+- DOM contracts verify accessible names and help references, decorative local SVGs,
+  a labelled panel per tab, click/keyboard navigation, all retained settings and
+  primary controls available outside collapsed help.
+- Protection, automation, Panic and unread behavior remain covered by existing
+  regressions. This release changes the interface, not the incoming-action policy.
+
+Retained from 0.6.0:
 - Three compact tabs preserve existing access, addon, automation and Activity
   controls; the counter is separate from the retained-event/session totals.
 - Grouped repeat events increment unread; 150 events display 99+ while the
