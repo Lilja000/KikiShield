@@ -1,4 +1,4 @@
-KikiShield 0.5.0
+KikiShield 0.6.0
 
 Made By Kiki #72385
 A local incoming-action shield for Bondage Club R132.
@@ -18,7 +18,7 @@ You may instead paste the complete .user.js into a new userscript and save.
 
 Run at document-start in the page context, before the game connects.
 Existing per-account preferences and the icon position are retained.
-Tap the round icon for Protection / Activity; drag it to move it.
+Tap the round icon for Protection / Automation / Activity; drag it to move it.
 A mint dot means the ingress filter is active, gold means waiting, and pink
 means it needs attention. Read the status, rather than just checking the icon.
 KikiShield now also appears in ModSDK diagnostics when the SDK is available.
@@ -40,7 +40,24 @@ checks stay active. Normal authorized addon behavior can then pass to that
 addon's own checks. Keep Strict hidden-message filter OFF for normal addon
 communication. Known BCX and KikiLink metadata/communication stay available.
 
-WHAT CHANGED IN 0.5.0
+WHAT CHANGED IN 0.6.0
+
+- Three compact tabs: Protection for access and addon switches, Automation for
+  automatic list rules, and Activity for recorded events and their details.
+- A shorter permission selector, concise status, compact Activity totals and
+  collapsible secondary settings keep the menu readable on narrow screens.
+- A red launcher badge and the Activity tab count new events, including repeats
+  combined into an existing row. The display shows 99+ above 99 events.
+- Viewing Activity clears the unread count. Incoming events stay read while
+  Activity is open in a visible browser tab, including when a severity filter is
+  selected. Opening another menu tab does not mark Activity as read.
+- A closed panel, background browser tab or Panic screen does not mark events
+  as read. Clear Activity, switching account or reloading resets the counter.
+  Reading Activity does not delete its entries or reset the session totals.
+- Updates are coalesced into one deferred refresh per event burst. The badge
+  adds no network traffic or additional polling interval.
+
+RETAINED FROM 0.5.0
 
 - Expand an Activity entry to inspect the command, sender, target, blocking
   reason, assessment and retained incoming packet. Filter entries by severity.
@@ -100,15 +117,15 @@ Panic is temporary per-tab state and is not kept after a page reload.
 
 PERMISSIONS AND COVERAGE
 
-Use BC permissions follows AllowedInteractions (legacy ItemPermission fallback):
+BC rules follows AllowedInteractions (legacy ItemPermission fallback):
 0 / 1: everyone except your blocked/ghosted players.
 2: owner, lovers, whitelist, or native dominance threshold.
 3: owner, lovers or whitelist.
 4: owner or lovers.
 5: owner.
 
-Whitelist only requires your whitelist IN ADDITION to the above permissions.
-Block interactions refuses incoming interactions in the protected channels.
+Whitelist requires your whitelist IN ADDITION to the above permissions.
+No one refuses incoming interactions in the protected channels.
 Ordinary chat from nonblocked players remains available in both modes.
 Your friends list is not automatically a BC whitelist. BCC's separate Friend
 role and BC's script-property friend permissions still have their own meaning.
@@ -249,7 +266,7 @@ Preferences are local per account and game domain.
 
 AUTOMATIC BLACKLIST / GHOSTLIST
 
-Open Protection > Automatic actions. Choose Off, Blacklist, or Ghost + blacklist.
+Open Automation. Choose Off, Blacklist, or Ghost + blacklist.
 Off is the default. BC's native GhostList add also adds BlackList and removes a
 whitelist entry; a native blacklist add removes a whitelist entry as well. These
 are real saved BC list changes, not temporary KikiShield-only filters.
@@ -334,10 +351,12 @@ the native validator when applying its own accepted effects.
 
 VERIFICATION
 
-0.5.0: 187 Node regression tests and 4 Node DOM interface regression groups
+0.6.0: 187 Node regression tests and 13 Node DOM interface regression groups
 passed. These include the actual R132 list updater and tests for false positives,
 sender attribution, payload retention limits, trusted exclusions and guarded Undo.
-The new interface checks used LinkeDOM; no browser layout engine was run for 0.5.0.
+The interface checks include unread-count lifecycle, three-tab navigation and
+closing Activity before a deferred event paint. They used LinkeDOM; no browser
+layout engine was run for 0.6.0. The cloud browser cannot open the local fixture.
 
 The previous 0.4.0 release passed 116 Node regression tests, including real source
 handlers and 1,800 bounded malformed-wire cases inside one test, plus 44 Chromium
@@ -358,8 +377,8 @@ Browser tests additionally require Playwright and Chromium with WebGL2 support:
   KIKISHIELD_UPSTREAM=/path/to/audit KIKISHIELD_CHROMIUM=/path/to/chromium node tests/render.browser.cjs
 
 New DOM simulation (optional linkedom package; no browser required):
-  KIKISHIELD_DOM_MODULES=/path/to/node_modules node --test tests/activity-dom.cjs
-The downloadable KikiShield-0.5.0.zip contains these test sources and results.
+  KIKISHIELD_DOM_MODULES=/path/to/node_modules node --test tests/activity-dom.cjs tests/unread-dom.cjs
+The downloadable KikiShield-0.6.0.zip contains these test sources and results.
 
 tests/SOURCE-MANIFEST.json identifies the upstream files/revisions. Audit sources
 and browser binaries are not bundled; the standalone policy tests need neither.

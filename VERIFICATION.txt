@@ -1,21 +1,37 @@
-KikiShield 0.5.0 — verification
+KikiShield 0.6.0 — verification
 
 RESULTS
 187/187 Node.js regression tests passed (Node v24.19.0), including all 116
 previous regressions and 71 new Activity/automation/independent-review cases.
-4/4 Node LinkeDOM interface regression groups passed for the new interface.
+13/13 Node LinkeDOM interface regression groups passed, including 9 unread-count
+cases and the 4 retained Activity/automation interface regression groups.
 Syntax and whitespace checks passed. No new remote runtime dependencies.
 
-Historical 0.4.0 results, NOT re-run for 0.5.0:
+Historical 0.4.0 results, NOT re-run for 0.6.0:
 44/44 Chromium interface fixture checks; 16/16 Chromium R132 rendering/CORS checks.
 That browser was Chromium 133.0.6943.0 with headless software WebGL2.
-The 0.5.0 interface was checked using a DOM simulation, not a browser layout engine.
+The 0.6.0 interface was checked using a DOM simulation, not a browser layout engine.
+The cloud browser does not permit opening the local HTML visual fixture.
 
 This is fixture-based verification, not live certification of a full addon pack.
 No game login, real target player or live interaction was used.
 Firefox Android and actual userscript-manager installation remain untested.
 
 SECURITY / COMPATIBILITY
+
+New in 0.6.0:
+- Three compact tabs preserve existing access, addon, automation and Activity
+  controls; the counter is separate from the retained-event/session totals.
+- Grouped repeat events increment unread; 150 events display 99+ while the
+  internal count remains accurate. Reading Activity keeps records intact.
+- Protection/Automation do not mark Activity read; closed panels, hidden browser
+  tabs and Panic retain unread. Visibility restoration acknowledges rendered rows.
+- Read acknowledgement happens after Activity render, so closing the panel before
+  the deferred paint cannot silently consume an unseen notification.
+- Viewing Activity marks the whole journal read, including under a severity filter.
+- Clearing the log and changing accounts reset unread without changing protection.
+- One 150 ms refresh per burst; no new network calls or polling interval.
+- Independent source review confirmed no ingress/safety blockers in this change.
 
 New in 0.5.0:
 - Expandable immutable command snapshots, severity and independently assessed
